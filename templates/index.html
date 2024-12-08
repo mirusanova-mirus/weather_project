@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погодный сервис</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Проверка погодных условий</h1>
+        <form action="/check_weather" method="POST">
+            <div class="form-group">
+                <label for="start_city">Начальная точка (город):</label>
+                <input type="text" class="form-control" id="start_city" name="start_city" required>
+            </div>
+            <div class="form-group">
+                <label for="end_city">Конечная точка (город):</label>
+                <input type="text" class="form-control" id="end_city" name="end_city" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Проверить погоду</button>
+        </form>
+        {% if result %}
+        <div class="mt-4">
+            <h2>Результаты:</h2>
+            <p>{{ result }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
