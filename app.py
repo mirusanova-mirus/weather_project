@@ -36,9 +36,37 @@ def get_weather(lat, lon):
         "wind_speed": wind_speed,
         "precipitation_probability": precipitation_probability
     }
+
+def check_bad_weather(temperature, humidity, wind_speed, precipitation_probability):
+    if temperature < 0 or temperature > 35:
+        return "bad weather condition"
+    if wind_speed > 50:
+        return "bad weather condition"
+    if precipitation_probability > 70:
+        return "bad weather condition"
+    if humidity > 90:
+        return "bad weather condition"
+    return "good weather condition"
+
 @app.route('/weather/<float:lat>/<float:lon>')
 def weather(lat, lon):
     weather_data = get_weather(lat, lon)
+
+    # Проверяем наличие ошибки в данных о погоде
+    if "error" in weather_data:
+        return jsonify(weather_data)
+
+    # Получаем параметры погоды
+    temperature = weather_data['temperature']
+    humidity = weather_data['humidity']
+    wind_speed = weather_data['wind_speed']
+    precipitation_probability = weather_data['precipitation_probability']
+
+    # Оцениваем погодные условия
+    weather_condition = check_bad_weather(temperature, humidity, wind_speed, precipitation_probability)
+
+    # Добавляем результат оценки в ответ
+    weather_data['condition'] = weather_condition
     return jsonify(weather_data)
 
 if __name__ == '__main__':
